@@ -15,12 +15,14 @@ class Shop {
       'Sulfuras, Hand of Ragnaros'
     ];
     this.increaseItems = [
-      'Aged Brie',
-      'Backstage passes to a TAFKAL80ETC concert'
-    ]
+      'Aged Brie'
+    ];
     this.ticketItems = [
       'Backstage passes to a TAFKAL80ETC concert'
-    ]
+    ];
+    this.dontReduceSellIn = [
+      'Sulfuras, Hand of Ragnaros'
+    ];
   }
 }
 
@@ -33,12 +35,11 @@ Shop.prototype.updateQuality = function() {
     if (self.isTicket(item)) {self.processTicket(item)};
     self.updateSellIn(item);
   });
-
   return this.items;
 }
 
 Shop.prototype.updateSellIn = function(item){
-  if (item.name != 'Sulfuras, Hand of Ragnaros') {
+  if (this.dontReduceSellIn.indexOf(item.name)===-1) {
     item.sellIn = item.sellIn - 1;
   }
 }
@@ -59,8 +60,9 @@ Shop.prototype.processTicket = function(item){
   let self = this;
   switch(true){
     case (item.sellIn <= 0):item.quality = 0;break;
-    case (item.sellIn < 6):self.changeQuality(item, 2);break;
-    case (item.sellIn < 11):self.changeQuality(item, 1);break;
+    case (item.sellIn < 6):self.changeQuality(item, 3);break;
+    case (item.sellIn < 11):self.changeQuality(item, 2);break;
+    default:self.changeQuality(item, 1);break;
   }
 }
 
@@ -70,8 +72,3 @@ Shop.prototype.changeQuality = function(item, num){
   if (item.quality > 50){item.quality = 50};
   if (item.quality < 0){item.quality = 0};
 }
-
-// module.exports = {
-//   Item,
-//   Shop
-// }
