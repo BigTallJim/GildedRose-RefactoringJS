@@ -23,6 +23,11 @@ class Shop {
     this.dontReduceSellIn = [
       'Sulfuras, Hand of Ragnaros'
     ];
+    this.conjuredItems = [
+      'Alter of death',
+      'Ouija board',
+      'Seance table'
+    ];
   }
 }
 
@@ -39,9 +44,7 @@ Shop.prototype.updateQuality = function() {
 }
 
 Shop.prototype.updateSellIn = function(item){
-  if (this.dontReduceSellIn.indexOf(item.name)===-1) {
-    item.sellIn = item.sellIn - 1;
-  }
+  if (this.dontReduceSellIn.indexOf(item.name)===-1) {item.sellIn = item.sellIn - 1;}
 }
 
 Shop.prototype.reduceItemQuality = function(item){
@@ -56,6 +59,10 @@ Shop.prototype.isTicket = function(item){
   return (this.ticketItems.indexOf(item.name)!==-1)
 }
 
+Shop.prototype.isConjured = function(item){
+  return (this.conjuredItems.indexOf(item.name)!==-1)
+}
+
 Shop.prototype.processTicket = function(item){
   let self = this;
   switch(true){
@@ -67,6 +74,7 @@ Shop.prototype.processTicket = function(item){
 }
 
 Shop.prototype.changeQuality = function(item, num){
+  if (this.isConjured(item)) {num *= 2}
   if (item.sellIn <= 0) {num *= 2}
   item.quality += num;
   if (item.quality > 50){item.quality = 50};

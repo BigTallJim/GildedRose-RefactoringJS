@@ -111,6 +111,18 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(0);
   });
 
+  it("Conjured Items degrate twice as fast as normal items", function() {
+    const gildedRose = new Shop([ new Item("Ouija board", 5, 10) ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toEqual(8);
+  });
+
+  it("Conjured Items past Sell In date degrate 2x twice as fast as normal items", function() {
+    const gildedRose = new Shop([ new Item("Ouija board", -1, 10) ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toEqual(6);
+  });
+
   it("Multiple List Test of all above tests", function() {
     i0 = new Item("Item", 5, 6)
     i1 = new Item("Item", 5, 6)
