@@ -9,6 +9,7 @@ class Item {
 class Shop {
   constructor(items=[]){
     this.items = items;
+    this.MAXQUALITY = 50;
     
     this.dontReduceItems = [
       'Aged Brie',
@@ -35,8 +36,8 @@ Shop.prototype.updateQuality = function() {
   let self = this;
 
   this.items.forEach(function(item){
-    if (self.reduceItemQuality(item)) {self.changeQuality(item, -1)};
-    if (self.increaseItemQuality(item)) {self.changeQuality(item, 1)};
+    if (self.canReduceItemQuality(item)) {self.changeQuality(item, -1)};
+    if (self.canIncreaseItemQuality(item)) {self.changeQuality(item, 1)};
     if (self.isTicket(item)) {self.processTicket(item)};
     self.updateSellIn(item);
   });
@@ -47,12 +48,12 @@ Shop.prototype.updateSellIn = function(item){
   if (this.dontReduceSellIn.indexOf(item.name)===-1) {item.sellIn = item.sellIn - 1;}
 }
 
-Shop.prototype.reduceItemQuality = function(item){
+Shop.prototype.canReduceItemQuality = function(item){
   return (this.dontReduceItems.indexOf(item.name)===-1 && item.quality > 0);
 }
 
-Shop.prototype.increaseItemQuality = function(item){
-  return (this.increaseItems.indexOf(item.name)!==-1 && item.quality < 50)
+Shop.prototype.canIncreaseItemQuality = function(item){
+  return (this.increaseItems.indexOf(item.name)!==-1 && item.quality < this.MAXQUALITY)
 }
 
 Shop.prototype.isTicket = function(item){
@@ -78,6 +79,6 @@ Shop.prototype.changeQuality = function(item, num){
   if (item.sellIn <= 0) {num *= 2}
   
   item.quality += num;
-  if (item.quality > 50){item.quality = 50};
+  if (item.quality > this.MAXQUALITY){item.quality = this.MAXQUALITY};
   if (item.quality < 0){item.quality = 0};
 }
