@@ -57,6 +57,12 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(8);
   });
 
+  it("Item quality decreases by 2 more when past sell in", function() {
+    const gildedRose = new Shop([ new Item("Item", -1, 6) ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toEqual(4);
+  });
+
   it("Quality can't be > 50", function() {
     const gildedRose = new Shop([ new Item("Item", 5, 51) ]);
     const items = gildedRose.updateQuality();

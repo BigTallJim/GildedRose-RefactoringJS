@@ -28,28 +28,10 @@ Shop.prototype.updateQuality = function() {
   let self = this;
 
   this.items.forEach(function(item){
-    if (self.reduceItemQuality(item)) { item.quality -= 1 };
-    if (self.increaseItemQuality(item)) {item.quality = item.quality + 1};
-    self.updateSellIn(item);
+    if (self.reduceItemQuality(item)) {self.changeQuality(item, -1)};
+    if (self.increaseItemQuality(item)) {self.changeQuality(item, 1)};
     if (self.isTicket(item)) {self.processTicket(item)};
- 
-    if (item.sellIn < 0) {
-      if (item.name != 'Aged Brie') {
-        if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
-          if (item.quality > 0) {
-            if (item.name != 'Sulfuras, Hand of Ragnaros') {
-              item.quality = item.quality - 1;
-            }
-          }
-        } else {
-          item.quality = item.quality - item.quality;
-        }
-      } else {
-        if (item.quality < 50) {
-          item.quality = item.quality + 1;
-        }
-      }
-    }
+    self.updateSellIn(item);
   });
 
   return this.items;
@@ -74,11 +56,21 @@ Shop.prototype.isTicket = function(item){
 }
 
 Shop.prototype.processTicket = function(item){
+  let self = this;
   switch(true){
-    case (item.sellIn < 6):if (item.quality < 50) {item.quality += 2};break;
-    case (item.sellIn < 11):if (item.quality < 50) {item.quality += 1};break;
+    case (item.sellIn <= 0):item.quality = 0;break;
+    case (item.sellIn < 6):self.changeQuality(item, 2);break;
+    case (item.sellIn < 11):self.changeQuality(item, 1);break;
   }
 }
+
+Shop.prototype.changeQuality = function(item, num){
+  if (item.sellIn <= 0) {num *= 2}
+  item.quality += num;
+  if (item.quality > 50){item.quality = 50};
+  if (item.quality < 0){item.quality = 0};
+}
+
 // module.exports = {
 //   Item,
 //   Shop
