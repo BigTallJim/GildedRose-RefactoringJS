@@ -18,6 +18,9 @@ class Shop {
       'Aged Brie',
       'Backstage passes to a TAFKAL80ETC concert'
     ]
+    this.ticketItems = [
+      'Backstage passes to a TAFKAL80ETC concert'
+    ]
   }
 }
 
@@ -25,27 +28,11 @@ Shop.prototype.updateQuality = function() {
   let self = this;
 
   this.items.forEach(function(item){
-  if (self.reduceItemQuality(item)) { item.quality -= 1 };
-  if (self.increaseItemQuality(item)) {item.quality = item.quality + 1};
-  self.updateSellIn(item);
-    
-  if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-    if (item.sellIn < 11) {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1;
-      }
-    }
-    if (item.sellIn < 6) {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1;
-      }
-    }
-  }
-  
-    
-    
-    
-
+    if (self.reduceItemQuality(item)) { item.quality -= 1 };
+    if (self.increaseItemQuality(item)) {item.quality = item.quality + 1};
+    self.updateSellIn(item);
+    if (self.isTicket(item)) {self.processTicket(item)};
+ 
     if (item.sellIn < 0) {
       if (item.name != 'Aged Brie') {
         if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
@@ -80,6 +67,17 @@ Shop.prototype.reduceItemQuality = function(item){
 
 Shop.prototype.increaseItemQuality = function(item){
   return (this.increaseItems.indexOf(item.name)!==-1 && item.quality < 50)
+}
+
+Shop.prototype.isTicket = function(item){
+  return (this.ticketItems.indexOf(item.name)!==-1)
+}
+
+Shop.prototype.processTicket = function(item){
+  switch(true){
+    case (item.sellIn < 6):if (item.quality < 50) {item.quality += 2};break;
+    case (item.sellIn < 11):if (item.quality < 50) {item.quality += 1};break;
+  }
 }
 // module.exports = {
 //   Item,
