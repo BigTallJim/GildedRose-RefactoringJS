@@ -1,3 +1,18 @@
+# Gilded Rose Refactored in Javascript
+The following tasks have been completed
+1) Write full set of Jasmine Tests
+2) Refactor code to be more readable and easier to maintain
+3) Ensured all tests are still running
+4) Wrote tests for conjured items
+5) Added additional functionality for Conjured Items
+6) Ran all the tests, refactored and checked in
+
+You can see all the tests running in the SpecRunner.html file
+
+The original version of the gilded_rose.js has been left in place for reference.
+
+Please look at gilded_rose.js for refactored and additional function version.
+
 # Gilded Rose Refactoring Kata
 
 This Kata was originally created by Terry Hughes (http://twitter.com/TerryHughes). It is already on GitHub [here](https://github.com/NotMyself/GildedRose). See also [Bobby Johnson's description of the kata](http://iamnotmyself.com/2011/02/13/refactor-this-the-gilded-rose-kata/).
