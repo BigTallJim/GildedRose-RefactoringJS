@@ -26,25 +26,25 @@ Shop.prototype.updateQuality = function() {
 
   this.items.forEach(function(item){
   if (self.reduceItemQuality(item)) { item.quality -= 1 };
+  if (self.increaseItemQuality(item)) {item.quality = item.quality + 1};
+  self.updateSellIn(item);
     
-  if (self.increaseItemQuality(item)) {
-    item.quality = item.quality + 1;
-    if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-      if (item.sellIn < 11) {
-        if (item.quality < 50) {
-          item.quality = item.quality + 1;
-        }
+  if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
+    if (item.sellIn < 11) {
+      if (item.quality < 50) {
+        item.quality = item.quality + 1;
       }
-      if (item.sellIn < 6) {
-        if (item.quality < 50) {
-          item.quality = item.quality + 1;
-        }
+    }
+    if (item.sellIn < 6) {
+      if (item.quality < 50) {
+        item.quality = item.quality + 1;
       }
     }
   }
+  
     
     
-    self.updateSellIn(item);
+    
 
     if (item.sellIn < 0) {
       if (item.name != 'Aged Brie') {
