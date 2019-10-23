@@ -9,25 +9,25 @@ class Item {
 class Shop {
   constructor(items=[]){
     this.items = items;
+    
     this.dontReduceItems = [
       'Aged Brie',
       'Backstage passes to a TAFKAL80ETC concert',
-      'Sulfuras, Hand of Ragnaros'
-    ];
+      'Sulfuras, Hand of Ragnaros'];
+
     this.increaseItems = [
-      'Aged Brie'
-    ];
+      'Aged Brie'];
+
     this.ticketItems = [
-      'Backstage passes to a TAFKAL80ETC concert'
-    ];
+      'Backstage passes to a TAFKAL80ETC concert'];
+
     this.dontReduceSellIn = [
-      'Sulfuras, Hand of Ragnaros'
-    ];
+      'Sulfuras, Hand of Ragnaros'];
+
     this.conjuredItems = [
       'Alter of death',
       'Ouija board',
-      'Seance table'
-    ];
+      'Seance table'];
   }
 }
 
@@ -76,6 +76,7 @@ Shop.prototype.processTicket = function(item){
 Shop.prototype.changeQuality = function(item, num){
   if (this.isConjured(item)) {num *= 2}
   if (item.sellIn <= 0) {num *= 2}
+  
   item.quality += num;
   if (item.quality > 50){item.quality = 50};
   if (item.quality < 0){item.quality = 0};
